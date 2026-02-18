@@ -8,7 +8,7 @@ import { AnalysisResult, BismutSymbol, BismutDiagnostic, BismutAnalyzer } from '
 export class SymbolCache {
     /** Per-file analysis results */
     private cache = new Map<string, AnalysisResult>();
-    /** Per-file symbol index: symbol name → symbols with that name */
+    /** Per-file symbol index: symbol name -> symbols with that name */
     private nameIndex = new Map<string, Map<string, BismutSymbol[]>>();
     /** Global symbol index across all analyzed files */
     private globalSymbols = new Map<string, BismutSymbol[]>();

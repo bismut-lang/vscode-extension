@@ -13,6 +13,32 @@ Language support for the [Bismut](https://bismut-lang.github.io/website/) progra
 - **Code Completion** — dot-triggered completion for class/struct members, plus keyword and symbol completion
 - **Run Button** — play button in the editor title bar to run the current file
 
+## Installation
+
+Build the extension first:
+
+```bash
+./build.sh
+```
+
+This produces a `.vsix` file in `dist/`. Install it using any of these methods:
+
+### From the command line
+
+```bash
+code --install-extension dist/bismut-lang-0.1.0.vsix
+```
+
+### From the VS Code UI
+
+1. Open VS Code
+2. `Ctrl+Shift+P` -> **Extensions: Install from VSIX...**
+3. Navigate to `dist/` and select the `.vsix` file
+
+### Drag and drop
+
+Drag the `.vsix` file from your file manager into the VS Code Extensions sidebar.
+
 ## Requirements
 
 - **Bismut compiler** binary (`bismut`) must be installed and accessible
@@ -39,5 +65,5 @@ Language support for the [Bismut](https://bismut-lang.github.io/website/) progra
 ## How It Works
 
 The extension calls `bismut analyze <file.mut>` which runs the full compiler pipeline
-(preprocess → parse → resolve → typecheck) without code generation, outputting JSON with
+(preprocess -> parse -> resolve -> typecheck) without code generation, outputting JSON with
 diagnostics and symbol information. This data drives all IDE features.

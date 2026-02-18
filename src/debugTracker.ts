@@ -3,7 +3,7 @@
  * debug sessions:
  *
  * 1. Filters out compiler temporaries (_t1, _t2, …)
- * 2. Demangles variable names: `count_3` → `count`, `x_` → `x`
+ * 2. Demangles variable names: `count_3` -> `count`, `x_` -> `x`
  * 3. Hides internal runtime symbols (__lang_rt_*, __clib__*)
  *
  * Works by mutating DAP 'variables' responses in-place before VS Code
@@ -48,7 +48,7 @@ class BismutDebugTracker implements vscode.DebugAdapterTracker {
                     const name: string = v.name;
                     // Don't demangle names starting with __ (internals that survived filter)
                     if (name.startsWith('__')) { return v; }
-                    // Strip mangling suffix: name_7 → name, x_ → x
+                    // Strip mangling suffix: name_7 -> name, x_ -> x
                     const demangled = name.replace(MANGLE_SUFFIX_RE, '');
                     if (demangled.length > 0 && demangled !== name) {
                         v.name = demangled;
