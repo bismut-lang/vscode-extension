@@ -1,0 +1,321 @@
+{
+  "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+  "name": "Bismut",
+  "scopeName": "source.bismut",
+  "patterns": [
+    { "include": "#preprocessor" },
+    { "include": "#comments" },
+    { "include": "#strings" },
+    { "include": "#numbers" },
+    { "include": "#keywords" },
+    { "include": "#types" },
+    { "include": "#constants" },
+    { "include": "#function-def" },
+    { "include": "#class-def" },
+    { "include": "#struct-def" },
+    { "include": "#interface-def" },
+    { "include": "#enum-def" },
+    { "include": "#function-call" },
+    { "include": "#operators" },
+    { "include": "#identifiers" }
+  ],
+  "repository": {
+    "preprocessor": {
+      "patterns": [
+        {
+          "name": "meta.preprocessor.bismut",
+          "match": "^\\s*(@define|@if|@elif|@else|@end)\\b(.*)?$",
+          "captures": {
+            "1": { "name": "keyword.control.preprocessor.bismut" },
+            "2": { "name": "entity.name.tag.preprocessor.bismut" }
+          }
+        }
+      ]
+    },
+    "comments": {
+      "patterns": [
+        {
+          "name": "comment.line.hash.bismut",
+          "match": "#.*$"
+        },
+        {
+          "name": "comment.line.double-slash.bismut",
+          "match": "//.*$"
+        }
+      ]
+    },
+    "strings": {
+      "patterns": [
+        {
+          "name": "string.quoted.triple.double.bismut",
+          "begin": "\"\"\"",
+          "end": "\"\"\"",
+          "patterns": [
+            { "include": "#string-escapes" }
+          ]
+        },
+        {
+          "name": "string.quoted.triple.single.bismut",
+          "begin": "'''",
+          "end": "'''",
+          "patterns": [
+            { "include": "#string-escapes" }
+          ]
+        },
+        {
+          "name": "string.quoted.double.bismut",
+          "begin": "\"",
+          "end": "\"",
+          "patterns": [
+            { "include": "#string-escapes" },
+            { "include": "#format-placeholder" }
+          ]
+        },
+        {
+          "name": "string.quoted.single.bismut",
+          "begin": "'(?=[^']*'(?!'))",
+          "end": "'",
+          "patterns": [
+            { "include": "#string-escapes" },
+            { "include": "#format-placeholder" }
+          ]
+        },
+        {
+          "comment": "Character literal: single character in single quotes like 'A', '\\n', '\\0'",
+          "name": "constant.character.bismut",
+          "match": "'(\\\\[nrt0\\\\'\"]|[^\\\\'])'",
+          "captures": {
+            "1": { "name": "constant.character.escape.bismut" }
+          }
+        }
+      ]
+    },
+    "string-escapes": {
+      "patterns": [
+        {
+          "name": "constant.character.escape.bismut",
+          "match": "\\\\[nrt\\\\\"'0]"
+        }
+      ]
+    },
+    "format-placeholder": {
+      "patterns": [
+        {
+          "name": "constant.other.placeholder.bismut",
+          "match": "\\{\\}"
+        },
+        {
+          "name": "constant.character.escape.bismut",
+          "match": "\\{\\{|\\}\\}"
+        }
+      ]
+    },
+    "numbers": {
+      "patterns": [
+        {
+          "name": "constant.numeric.hex.bismut",
+          "match": "\\b0[xX][0-9a-fA-F]+\\b"
+        },
+        {
+          "name": "constant.numeric.binary.bismut",
+          "match": "\\b0[bB][01]+\\b"
+        },
+        {
+          "name": "constant.numeric.float.bismut",
+          "match": "\\b[0-9]+\\.[0-9]+([eE][+-]?[0-9]+)?\\b"
+        },
+        {
+          "name": "constant.numeric.integer.bismut",
+          "match": "\\b[0-9]+\\b"
+        }
+      ]
+    },
+    "keywords": {
+      "patterns": [
+        {
+          "name": "keyword.control.flow.bismut",
+          "match": "\\b(if|elif|else|while|for|in|return|break|continue|end)\\b"
+        },
+        {
+          "name": "keyword.control.bismut",
+          "match": "\\b(def|class|struct|interface|enum|import|extern|const|static)\\b"
+        },
+        {
+          "name": "keyword.control.bismut",
+          "match": "\\b(not|and|or)\\b"
+        },
+        {
+          "name": "keyword.control.bismut",
+          "match": "\\b(is|as)\\b"
+        },
+        {
+          "name": "variable.language.self.bismut",
+          "match": "\\bself\\b"
+        }
+      ]
+    },
+    "types": {
+      "patterns": [
+        {
+          "name": "storage.type.primitive.bismut",
+          "match": "\\b(i8|i16|i32|i64|u8|u16|u32|u64|f32|f64|bool|str|void)\\b"
+        },
+        {
+          "name": "storage.type.container.bismut",
+          "match": "\\b(List|Dict|Fn)\\b"
+        }
+      ]
+    },
+    "constants": {
+      "patterns": [
+        {
+          "name": "constant.language.boolean.true.bismut",
+          "match": "\\bTrue\\b"
+        },
+        {
+          "name": "constant.language.boolean.false.bismut",
+          "match": "\\bFalse\\b"
+        },
+        {
+          "name": "constant.language.none.bismut",
+          "match": "\\bNone\\b"
+        }
+      ]
+    },
+    "function-def": {
+      "patterns": [
+        {
+          "comment": "Function definition",
+          "match": "\\b(def)\\s+([a-zA-Z_][a-zA-Z0-9_]*)\\s*(\\[)?",
+          "captures": {
+            "1": { "name": "keyword.control.bismut" },
+            "2": { "name": "entity.name.function.bismut" },
+            "3": { "name": "punctuation.bracket.angle.bismut" }
+          }
+        }
+      ]
+    },
+    "class-def": {
+      "patterns": [
+        {
+          "comment": "Class definition with optional interface implementation",
+          "match": "\\b(class)\\s+([A-Z][a-zA-Z0-9_]*)(?:\\s*:\\s*([A-Z][a-zA-Z0-9_]*)(?:\\s*,\\s*([A-Z][a-zA-Z0-9_]*))*)?",
+          "captures": {
+            "1": { "name": "keyword.control.bismut" },
+            "2": { "name": "entity.name.type.class.bismut" },
+            "3": { "name": "entity.other.inherited-class.bismut" },
+            "4": { "name": "entity.other.inherited-class.bismut" }
+          }
+        }
+      ]
+    },
+    "struct-def": {
+      "patterns": [
+        {
+          "match": "\\b(struct)\\s+([A-Z][a-zA-Z0-9_]*)",
+          "captures": {
+            "1": { "name": "keyword.control.bismut" },
+            "2": { "name": "entity.name.type.struct.bismut" }
+          }
+        }
+      ]
+    },
+    "interface-def": {
+      "patterns": [
+        {
+          "match": "\\b(interface)\\s+(I[A-Z][a-zA-Z0-9_]*)",
+          "captures": {
+            "1": { "name": "keyword.control.bismut" },
+            "2": { "name": "entity.name.type.interface.bismut" }
+          }
+        }
+      ]
+    },
+    "enum-def": {
+      "patterns": [
+        {
+          "match": "\\b(enum)\\s+([A-Z][a-zA-Z0-9_]*)",
+          "captures": {
+            "1": { "name": "keyword.control.bismut" },
+            "2": { "name": "entity.name.type.enum.bismut" }
+          }
+        }
+      ]
+    },
+    "function-call": {
+      "patterns": [
+        {
+          "comment": "Builtin function calls",
+          "match": "\\b(print|format|len|append|get|set|put|lookup|has|keys|range)\\s*(?=\\()",
+          "captures": {
+            "1": { "name": "support.function.builtin.bismut" }
+          }
+        },
+        {
+          "comment": "Type cast calls",
+          "match": "\\b(i8|i16|i32|i64|u8|u16|u32|u64|f32|f64)\\s*(?=\\()",
+          "captures": {
+            "1": { "name": "support.function.cast.bismut" }
+          }
+        },
+        {
+          "comment": "Constructor call (PascalCase followed by parens)",
+          "match": "\\b([A-Z][a-zA-Z0-9_]*)\\s*(?=\\()",
+          "captures": {
+            "1": { "name": "entity.name.type.bismut" }
+          }
+        },
+        {
+          "comment": "Regular function call",
+          "match": "\\b([a-z_][a-zA-Z0-9_]*)\\s*(?=\\()",
+          "captures": {
+            "1": { "name": "entity.name.function.call.bismut" }
+          }
+        }
+      ]
+    },
+    "operators": {
+      "patterns": [
+        {
+          "name": "keyword.operator.assignment.bismut",
+          "match": "(:=|\\+=|-=|\\*=|/=|%=|&=|\\|=|\\^=|<<=|>>=|=)"
+        },
+        {
+          "name": "keyword.operator.comparison.bismut",
+          "match": "(==|!=|<=|>=|<|>)"
+        },
+        {
+          "name": "keyword.operator.arithmetic.bismut",
+          "match": "(\\+|-|\\*|/|%)"
+        },
+        {
+          "name": "keyword.operator.bitwise.bismut",
+          "match": "(~|&|\\||\\^|<<|>>)"
+        },
+        {
+          "name": "keyword.operator.arrow.bismut",
+          "match": "->"
+        }
+      ]
+    },
+    "identifiers": {
+      "patterns": [
+        {
+          "comment": "Constant identifiers (UPPER_SNAKE_CASE)",
+          "match": "\\b([A-Z][A-Z0-9_]+)\\b",
+          "name": "variable.other.constant.bismut"
+        },
+        {
+          "comment": "Type names (PascalCase)",
+          "match": "\\b([A-Z][a-zA-Z0-9_]*)\\b",
+          "name": "entity.name.type.bismut"
+        },
+        {
+          "comment": "Regular identifiers (variables, parameters)",
+          "match": "\\b([a-z_][a-zA-Z0-9_]*)\\b",
+          "name": "variable.other.bismut"
+        }
+      ]
+    }
+  }
+}

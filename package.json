@@ -1,0 +1,133 @@
+{
+  "name": "bismut-lang",
+  "displayName": "Bismut Language",
+  "description": "Language support for Bismut — syntax highlighting, diagnostics, hover, go-to-definition, completion, and run/debug.",
+  "version": "0.1.0",
+  "publisher": "bismut",
+  "license": "MIT",
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": [
+    "Programming Languages"
+  ],
+  "activationEvents": [
+    "onLanguage:bismut"
+  ],
+  "main": "./out/extension.js",
+  "icon": "icon.png",
+  "extensionDependencies": [
+    "ms-vscode.cpptools"
+  ],
+  "contributes": {
+    "breakpoints": [
+      {
+        "language": "bismut"
+      }
+    ],
+    "languages": [
+      {
+        "id": "bismut",
+        "aliases": [
+          "Bismut",
+          "bismut"
+        ],
+        "extensions": [
+          ".mut"
+        ],
+        "configuration": "./language-configuration.json"
+      }
+    ],
+    "grammars": [
+      {
+        "language": "bismut",
+        "scopeName": "source.bismut",
+        "path": "./syntaxes/bismut.tmLanguage.json"
+      }
+    ],
+    "configuration": {
+      "title": "Bismut",
+      "properties": {
+        "bismut.compilerPath": {
+          "type": "string",
+          "default": "",
+          "description": "Path to the Bismut compiler binary. If empty, 'bismut' must be on your PATH."
+        },
+        "bismut.compilerDir": {
+          "type": "string",
+          "default": "",
+          "description": "Compiler root directory (--compiler-dir). If empty, uses the directory containing the binary."
+        },
+        "bismut.analyzeOnSave": {
+          "type": "boolean",
+          "default": true,
+          "description": "Run analysis on file save."
+        },
+        "bismut.analyzeOnType": {
+          "type": "boolean",
+          "default": true,
+          "description": "Run analysis as you type (debounced)."
+        },
+        "bismut.analyzeDebounceMs": {
+          "type": "number",
+          "default": 800,
+          "description": "Debounce delay in milliseconds for on-type analysis."
+        }
+      }
+    },
+    "commands": [
+      {
+        "command": "bismut.run",
+        "title": "Bismut: Run Current File",
+        "icon": "$(play)"
+      },
+      {
+        "command": "bismut.debug",
+        "title": "Bismut: Debug Current File",
+        "icon": "$(debug-alt)"
+      },
+      {
+        "command": "bismut.build",
+        "title": "Bismut: Build Current File",
+        "icon": "$(tools)"
+      },
+      {
+        "command": "bismut.analyze",
+        "title": "Bismut: Analyze Current File"
+      }
+    ],
+    "keybindings": [
+      {
+        "command": "bismut.run",
+        "key": "ctrl+shift+r",
+        "mac": "cmd+shift+r",
+        "when": "editorLangId == bismut"
+      }
+    ],
+    "menus": {
+      "editor/title/run": [
+        {
+          "command": "bismut.run",
+          "when": "resourceLangId == bismut",
+          "group": "navigation@1"
+        },
+        {
+          "command": "bismut.debug",
+          "when": "resourceLangId == bismut",
+          "group": "navigation@2"
+        }
+      ]
+    }
+  },
+  "scripts": {
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "package": "vsce package",
+    "lint": "eslint src --ext ts"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "@types/vscode": "^1.85.0",
+    "typescript": "^5.3.0"
+  }
+}

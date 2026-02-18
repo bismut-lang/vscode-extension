@@ -1,0 +1,10 @@
+.vscode/**
+node_modules/**
+src/**
+tsconfig.json
+build.sh
+**/*.ts
+!out/**/*.js
+out/**/*.map
+out/**/*.d.ts
+out/**/*.d.ts.map
