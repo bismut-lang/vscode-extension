@@ -1,6 +1,6 @@
 # Bismut Language Extension for VS Code
 
-Language support for the [Bismut](https://github.com/example/bismut) programming language.
+Language support for the [Bismut](https://bismut-lang.github.io/website/) programming language.
 
 ## Features
 
